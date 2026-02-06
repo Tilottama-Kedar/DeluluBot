@@ -1,69 +1,48 @@
-import feedparser
 import requests
 from bs4 import BeautifulSoup
 from datetime import datetime
 
-DD_DEFENCE_RSS = "https://ddnews.gov.in/rss/defence.xml"
-
-HEADERS = {
-    "User-Agent": "Mozilla/5.0",
-    "Accept-Language": "en-IN,en;q=0.9",
-}
+DD_DEFENCE_RSS = (
+    "https://news.google.com/rss/search?"
+    "q=site:ddnews.gov.in+defence+India&hl=en-IN&gl=IN&ceid=IN:en"
+)
 
 
 def fetch_dd_defence(max_articles=5):
     articles = []
 
-    feed = feedparser.parse(DD_DEFENCE_RSS)
+    res = requests.get(DD_DEFENCE_RSS, timeout=15)
+    res.raise_for_status()
 
-    if not feed.entries:
-        return []
+    soup = BeautifulSoup(res.text, "xml")
+    items = soup.find_all("item")
 
-    for entry in feed.entries[:max_articles]:
+    for item in items[:max_articles]:
+        title = item.title.text.strip()
+        link = item.link.text.strip()
+        summary = item.description.text.strip()
+
+        pub_date = item.pubDate.text.strip()
         try:
-            title = entry.title
-            url = entry.link
-            date = (
-                entry.published
-                if hasattr(entry, "published")
-                else datetime.now().strftime("%Y-%m-%d")
-            )
+            pub_date = datetime.strptime(
+                pub_date, "%a, %d %b %Y %H:%M:%S %Z"
+            ).strftime("%Y-%m-%d")
+        except:
+            pub_date = datetime.now().strftime("%Y-%m-%d")
 
-            res = requests.get(url, headers=HEADERS, timeout=15)
-            if res.status_code != 200:
-                continue
-
-            soup = BeautifulSoup(res.text, "html.parser")
-
-            content_div = soup.find("div", class_="field--name-body")
-            if not content_div:
-                continue
-
-            paragraphs = content_div.find_all("p")
-            content = " ".join(
-                p.get_text(" ", strip=True) for p in paragraphs
-            )
-
-            if len(content) < 300:
-                continue
-
-            articles.append({
-                "source": "DD News (Govt of India)",
-                "category": "Defence",
-                "title": title,
-                "date": date,
-                "summary": content[:350],
-                "content": content,
-                "url": url,
-            })
-
-        except Exception:
-            continue
+        articles.append({
+            "source": "DD News",
+            "category": "Defence",
+            "title": title,
+            "date": pub_date,
+            "summary": summary[:350],
+            "content": summary,
+            "url": link,
+        })
 
     return articles
 
 
-# 🔽 THIS IS WHAT YOU WERE MISSING
 if __name__ == "__main__":
     print("RUNNING DD NEWS DEFENCE SCRAPER")
 
