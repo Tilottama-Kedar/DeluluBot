@@ -1,22 +1,21 @@
-/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Landing page background */
 .landing {
-  min-height: 100vh;
-  background-color: #000000;
-  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: black;
 }
 
-/* Logo positioning */
+/* Logo fixed at top-left */
 .landing-logo {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 140px;   /* adjust size if needed */
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  width: 300px;
   height: auto;
 }
