@@ -14,7 +14,7 @@
 .landing-logo {
   position: fixed;
   top: 0;
-  left: 0;
+  left: -95px;
 
   width: 300px;
   height: auto;
