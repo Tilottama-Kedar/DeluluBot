@@ -7,15 +7,175 @@
 .landing {
   width: 100vw;
   height: 100vh;
-  background: black;
+  position: relative;
+  overflow: hidden;
+
+  /* Strong circular gradient: light center → darker edges */
+  background: radial-gradient(
+      circle,
+      #e0b3ff 0%,    /* lighter center */
+      #8a2be2 35%,   /* medium purple */
+      #0d0018 100%   /* very dark edges */
+    );
 }
 
-/* Logo fixed at top-left */
+/* Base starfield layer */
+.landing::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(white 2px, transparent 2px),
+    radial-gradient(white 1.5px, transparent 1.5px),
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 200px 200px, 300px 300px, 150px 150px;
+  background-position: 0 0, 100px 50px, 50px 150px;
+  opacity: 0.5;
+  pointer-events: none;
+  z-index: 0;
+  animation: galaxyMove 60s linear infinite;
+}
+
+/* Twinkling star layer 1 */
+.landing .stars-layer1 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(white 1.5px, transparent 1.5px),
+    radial-gradient(white 1px, transparent 1px);
+  background-size: 180px 180px, 250px 250px;
+  background-position: 50px 0, 0 100px;
+  opacity: 0.3;
+  pointer-events: none;
+  z-index: 0;
+  animation: galaxyMove 60s linear infinite, twinkle1 4s ease-in-out infinite alternate;
+}
+
+/* Twinkling star layer 2 */
+.landing .stars-layer2 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(white 1px, transparent 1px),
+    radial-gradient(white 0.7px, transparent 0.7px);
+  background-size: 150px 150px, 130px 130px;
+  background-position: 0 50px, 100px 0;
+  opacity: 0.25;
+  pointer-events: none;
+  z-index: 0;
+  animation: galaxyMove 60s linear infinite, twinkle2 5s ease-in-out infinite alternate;
+}
+
+/* Twinkling star layer 3 */
+.landing .stars-layer3 {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 200%;
+  height: 200%;
+  background-image:
+    radial-gradient(white 0.8px, transparent 0.8px),
+    radial-gradient(white 0.5px, transparent 0.5px);
+  background-size: 120px 120px, 100px 100px;
+  background-position: 30px 70px, 70px 30px;
+  opacity: 0.2;
+  pointer-events: none;
+  z-index: 0;
+  animation: galaxyMove 60s linear infinite, twinkle3 3.5s ease-in-out infinite alternate;
+}
+
+/* Animate starfield movement diagonally */
+@keyframes galaxyMove {
+  0% {
+    background-position: 0 0, 100px 50px, 50px 150px;
+  }
+  100% {
+    background-position: -600px -400px, 200px -200px, -250px -300px;
+  }
+}
+
+/* Individual twinkle animations with slightly different speeds */
+@keyframes twinkle1 { 0% {opacity:0.1;} 50% {opacity:0.7;} 100% {opacity:0.1;} }
+@keyframes twinkle2 { 0% {opacity:0.15;} 50% {opacity:0.75;} 100% {opacity:0.15;} }
+@keyframes twinkle3 { 0% {opacity:0.05;} 50% {opacity:0.65;} 100% {opacity:0.05;} }
+
+/* Logo fixed at top-left (UNCHANGED) */
 .landing-logo {
   position: fixed;
   top: 0;
-  left: -95px;
-
-  width: 300px;
+  left: -75px;
+  width: 250px;
   height: auto;
+  z-index: 5;
+}
+
+/* ============================= */
+/* Center Bot Zoom-in Animation */
+/* ============================= */
+
+.bot-wrapper {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+/* Soft lightning / glow background for bot */
+.bot-wrapper::before {
+  content: "";
+  position: absolute;
+  width: 700px;
+  height: 700px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+
+  background: radial-gradient(
+    circle,
+    rgba(180, 220, 255, 0.95),
+    rgba(120, 180, 255, 0.6),
+    rgba(80, 120, 255, 0.25),
+    transparent 70%
+  );
+
+  filter: blur(30px);
+  opacity: 0;
+  animation: lightningFlash 9s ease-out forwards;
+}
+
+.bot-zoom {
+  width: clamp(260px, 40vw, 520px);
+  height: auto;
+  transform: scale(0.15);
+  opacity: 0;
+  animation: zoomInBot 9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Bot zoom animation */
+@keyframes zoomInBot {
+  0% { transform: scale(0.15); opacity: 0; }
+  30% { opacity: 1; }
+  70% { transform: scale(1.5); }
+  100% { transform: scale(1.75); opacity: 1; }
+}
+
+/* Lightning / soft glow animation */
+@keyframes lightningFlash {
+  0% { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+  65% { opacity: 0; }
+  78% { opacity: 1; transform: translate(-50%, -50%) scale(1.15); }
+  82% { opacity: 0.4; transform: translate(-50%, -50%) scale(0.95); }
+  88% { opacity: 0.8; transform: translate(-50%, -50%) scale(1.05); }
+  100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); }
 }
