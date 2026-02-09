@@ -5,7 +5,7 @@ function LandingPage() {
   return (
     <div className="landing">
       {/* Original top-left logo */}
-      <img src={logo} alt="Logo" className="landing-logo" />
+     
 
       {/* Star layers for twinkling galaxy */}
       <div className="stars-layer1"></div>
