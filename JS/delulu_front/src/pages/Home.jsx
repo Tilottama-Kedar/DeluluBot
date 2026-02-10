@@ -104,9 +104,24 @@ function Home() {
       {/* MAIN */}
       <div style={{ display: "flex", flex: 1, gap: "48px" }}>
         <div style={{ width: "280px", display: "flex", flexDirection: "column", gap: "16px" }}>
-          <Panel title="Daily Intel" desc="Curated defence updates" onClick={() => handleLeftClick("daily")} />
-          <Panel title="Mission Log" desc="Track your learning streak" onClick={() => handleLeftClick("mission")} />
-          <Panel title="Intel Feed" desc="Live updates incoming" onClick={() => handleLeftClick("feed")} />
+          <Panel
+  title="Morning Nest"
+  desc="Today’s defence news + GK briefing"
+  onClick={() => handleLeftClick("brief")}
+/>
+
+<Panel
+  title="Nest Drill"
+  desc="Daily MCQ practice from today’s news"
+  onClick={() => handleLeftClick("quiz")}
+/>
+
+<Panel
+  title="Nest Archive"
+  desc="Browse saved news & monthly records"
+  onClick={() => handleLeftClick("archive")}
+/>
+
         </div>
 
         <div
