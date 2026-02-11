@@ -67,9 +67,9 @@ function Home() {
 
   const renderRightPanel = () => {
     if (!isLoggedIn) return "Login to access intelligence modules";
-    if (activePanel === "daily") return "🛰 Daily Intel content appears here";
-    if (activePanel === "mission") return "📊 Mission Log & streaks appear here";
-    if (activePanel === "feed") return "📡 Live Intel Feed appears here";
+    if (activePanel === "brief") return "🛰 Daily Intel content appears here";
+    if (activePanel === "quiz") return "📊 Mission Log & streaks appear here";
+    if (activePanel === "archive") return "📡 Live Intel Feed appears here";
     return "Select a module from the left";
   };
 
