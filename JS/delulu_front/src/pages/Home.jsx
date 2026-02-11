@@ -65,13 +65,21 @@ function Home() {
     setPendingPanel(null);
   };
 
-  const renderRightPanel = () => {
-    if (!isLoggedIn) return "Login to access intelligence modules";
-    if (activePanel === "brief") return "🛰 Daily Intel content appears here";
-    if (activePanel === "quiz") return "📊 Mission Log & streaks appear here";
-    if (activePanel === "archive") return "📡 Live Intel Feed appears here";
-    return "Select a module from the left";
-  };
+const renderRightPanel = () => {
+  if (!isLoggedIn) return "Login to access NewsNest modules";
+
+  if (activePanel === "brief")
+    return "📰 Morning Nest: Today’s defence news + 5–10 Static GK updates will appear here.";
+
+  if (activePanel === "quiz")
+    return "🧠 Nest Drill: Your daily MCQ revision quiz based on today’s news will appear here.";
+
+  if (activePanel === "archive")
+    return "📂 Nest Archive: Browse saved monthly news records and past quizzes here.";
+
+  return "Select a module from the left";
+};
+
 
   return (
     <div
